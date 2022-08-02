@@ -134,6 +134,7 @@ void loop() {
   int btn_reading;
 
   static unsigned long sample_timestamp = millis();
+  static unsigned long start_timestamp = millis();
 
   // Debounce button - see if button state has changed
   btn_reading = digitalRead(BTN_PIN);
@@ -162,7 +163,8 @@ void loop() {
             break;
           case MODE_BACKGROUND:
             tft.drawString("BACKGROUND", 30, 100);
-            Serial.println("timestamp,temp,humd,pres,co2,voc1,voc2,no2,eth,co,mode");
+            Serial.println("timestamp,temp,humd,pres,co2,voc1,voc2,no2,eth,co,state");
+            start_timestamp = millis();
             break;
           case MODE_TOASTING:
             tft.drawString("TOASTING", 30, 100);
@@ -205,7 +207,7 @@ void loop() {
       }
 
       // Print CSV data with timestamp
-      Serial.print(sample_timestamp);
+      Serial.print(sample_timestamp - start_timestamp);
       Serial.print(",");
       Serial.print(bme680.sensor_result_value.temperature);
       Serial.print(",");
