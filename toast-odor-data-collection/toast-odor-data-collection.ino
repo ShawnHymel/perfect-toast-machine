@@ -52,12 +52,15 @@
 
 // Settings
 #define BTN_START           0                         // 1: press button to start, 0: loop
- #define BTN_PIN            WIO_KEY_C                 // Pin that connects to the button
+#define BTN_PIN             WIO_KEY_C                 // Pin that connects to the button
 #define SAMPLING_FREQ_HZ    4                         // Sampling frequency (Hz)
 #define SAMPLING_PERIOD_MS  1000 / SAMPLING_FREQ_HZ   // Sampling period (ms)
 #define NUM_SAMPLES         8                         // 8 samples at 4 Hz is 2 seconds
 #define DEBOUNCE_DELAY      30                        // Delay for debounce (ms)
 #define SAMPLE_DELAY        500                       // Delay between samples (ms)
+#define NH3_PIN             A0                        // Pin for the ammonia sensor (MQ137)
+#define ADC_MAX             1024                      // 10-bit ADC
+#define ADC_VOLTAGE         3.3                       // ADC voltage
 
 // Constants
 #define BME680_I2C_ADDR     uint8_t(0x76)             // I2C address of BME680
@@ -126,6 +129,7 @@ void loop() {
   int16_t sgp_err;
   uint16_t sgp_tvoc;
   uint16_t sgp_co2;
+  float nh3_v;
   
   static uint8_t mode = MODE_IDLE;
   static uint8_t btn_state;
@@ -163,7 +167,7 @@ void loop() {
             break;
           case MODE_BACKGROUND:
             tft.drawString("BACKGROUND", 30, 100);
-            Serial.println("timestamp,temp,humd,pres,co2,voc1,voc2,no2,eth,co,state");
+            Serial.println("timestamp,temp,humd,pres,co2,voc1,voc2,no2,eth,co,nh3,state");
             start_timestamp = millis();
             break;
           case MODE_TOASTING:
@@ -206,6 +210,9 @@ void loop() {
         return;
       }
 
+      // Read MQ137 sensor (ammonia)
+      nh3_v = (analogRead(NH3_PIN) * ADC_VOLTAGE) / ADC_MAX;
+
       // Print CSV data with timestamp
       Serial.print(sample_timestamp - start_timestamp);
       Serial.print(",");
@@ -226,6 +233,8 @@ void loop() {
       Serial.print(gm_eth_v);
       Serial.print(",");
       Serial.print(gm_co_v);
+      Serial.print(",");
+      Serial.print(nh3_v);
       Serial.print(",");
       Serial.print(mode);
       Serial.println();
