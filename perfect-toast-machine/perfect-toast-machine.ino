@@ -60,7 +60,7 @@
 #include "TFT_eSPI.h"
 
 // Settings
-#define CANCEL_THRESHOLD    40                        // Cancel toasting if time-to-burnt is under this value
+#define CANCEL_THRESHOLD    45                        // Cancel toasting if time-to-burnt is under this value
 #define BTN_START           0                         // 1: press button to start, 0: loop
 #define BTN_PIN             WIO_KEY_C                 // Pin that connects to the button
 #define SAMPLING_FREQ_HZ    4                         // Sampling frequency (Hz)
