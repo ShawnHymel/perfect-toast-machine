@@ -8,14 +8,19 @@ A full walkthrough for building the device can be found here: [How to Build an A
 
 The Edge Impulse project used to train the machine learning model can be found here: [perfect-toast-machine](https://studio.edgeimpulse.com/public/129477/latest). You'll want to clone the project, go to *Deployment*, download the Arduino .zip library, and install it as a library in the Arduino IDE in order to run the *perfect-toast-machine* Arduino code.
 
+If you want to eliminate some of the sensors, you can perform feature selection as shown in [this tutorial](https://www.digikey.com/en/maker/projects/feature-selection-for-embedded-machine-learning/d9b3815901824489af5f46a023e25145).
+
 ## Contents
 
  * *datasets/* - Data that I captured building the project. You are welcome to use it, but I can't promise it will work in your environment.
  * *images/* - Images used for this README.
  * *perfect-toast-machine/* - Arduino code used for deployment. You'll need to install the .zip Arduino library from the Edge Impulse project first.
+ * *perfect-toast-machine-limited-sensors/* - Arduino code used for deployment. You'll need to install the .zip Arduino library from the Edge Impulse project first. Use this instead of *perfect-toast-machine* if you want to perform inference using just the multichannel gas sensor board and the BME680 board. 
  * *tests/* - Internal tests that I used while making this project. You should not need to use them (unless you want to see how I test embedded machine learning code).
  * *toast-odor-data-collection/* - Run this code on your Arduino to collect raw data from the gas sensors. Used in tandem with *serial-data-collect-csv.py* to log raw data to CSV files to your computer.
- * *ptm-dataset-curation.ipynb* - Jupyter Notebook script (meant to be run on Google Colab) used to curate and standardize the dataset. Run this first after collecting your dataset before you upload it to Edge Impulse for training.
+ * *feature_selection_demo_iris.ipynb* - Demonstration of feature selection using the iris dataset. Not needed for this project but could be instructive.
+ * *ptm_dataset_curation.ipynb* - Jupyter Notebook script (meant to be run on Google Colab) used to curate and standardize the dataset. Run this first after collecting your dataset before you upload it to Edge Impulse for training.
+ * *ptm_dataset_curation.ipynb* - Jupyter Notebook (for Google Colab) used to perform feature importance ranking and selection along with standardization of the dataset. Run this instead of *ptm_dataset_curation.ipynb* if you want to do feature selection.
  * *README.md* - You're looking at it.
  * *serial-data-collect-csv.py* - Python (v3+) script used to collect raw data from the *toast-odor-data-collection* Arduino program and log to CSV files. See [this repo](https://github.com/edgeimpulse/example-data-collection-csv) for an example on how to use the script.
 
